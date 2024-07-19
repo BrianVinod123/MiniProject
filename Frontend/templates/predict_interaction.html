@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Predict Drug Interaction</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='predict_interaction.css')}}">
+</head>
+<body>
+    <div class="container">
+        <h2>Predict Drug Interaction</h2>
+        <form method="POST" action="{{ url_for('predict_interaction_page') }}">
+            <div class="form-group">
+                <label for="drug1">Enter Drug 1</label>
+                <input type="text" id="drug1" name="drug1" required>
+            </div>
+            <div class="form-group">
+                <label for="drug2">Enter Drug 2</label>
+                <input type="text" id="drug2" name="drug2" required>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Predict Interaction">
+            </div>
+        </form>
+        {% if result %}
+        <div class="result">
+            <p>Interaction between {{ drug1 }} and {{ drug2 }}: {{ result }}</p>
+        </div>
+        {% endif %}
+    </div>
+</body>
+</html>
