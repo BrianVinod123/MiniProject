@@ -66,8 +66,8 @@ def prepare(df_drug, feature_list, vector_size,mechanism,action,drugA,drugB):
     for i in range(len(list1)):
         d_label[list1[i][0]]=i
     vector = np.zeros((len(np.array(df_drug['name']).tolist()), 0), dtype=float)
-    for i in feature_list:
-        vector = np.hstack((vector, feature_vector(i, df_drug, vector_size)))
+    for feature in feature_list:
+        vector = np.hstack((vector, feature_vector(feature, df_drug, vector_size)))
     # Transfrom the drug ID to feature vector
     for i in range(len(np.array(df_drug['name']).tolist())):
         d_feature[np.array(df_drug['name']).tolist()[i]] = vector[i]
@@ -167,6 +167,7 @@ def cross_validation(feature_matrix, label_matrix, clf_type, event_num, seed, CV
                 dnn.fit(x_train, y_train_one_hot, batch_size=128, epochs=25, validation_data=(x_test, y_test_one_hot),
                         callbacks=[early_stopping])
                 pred += dnn.predict(x_test)
+                dnn.save(filepath="model.keras",overwrite=True)
                 continue
             elif clf_type == 'RF':
                 clf = RandomForestClassifier(n_estimators=100)
