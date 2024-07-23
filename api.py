@@ -6,9 +6,9 @@ from app import predict
 app = Flask(__name__)
 @app.route('/predict',methods=['POST'])
 def response():
-    pair=request.body
-    drugA=pair.drugA
-    drugB=pair.drugB
+    pair=request.get_json()
+    drugA=pair['drugA']
+    drugB=pair['drugB']
     result=predict(drugA,drugB)
     return jsonify(result)
 app.run(port=8000)
