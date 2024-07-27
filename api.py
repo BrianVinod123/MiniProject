@@ -29,12 +29,12 @@ def authenticate_user():
 @app.route('/CreateUser',methods=['POST'])
 def CreateUser():
     assert request.method=='POST'
-    username,password,age=itemgetter('username','password')(request.get_json())
+    username,password,age=itemgetter('username','password','age')(request.get_json())
     client=MongoClient(host='localhost',port=27017)
     db=client.Project
     Users=db.Users
     response=Users.insert_one({'username':username,'password':password,'age':age})
-    if response.aknowledeged==False:
+    if response.acknowledged==False:
         return {'status-line':{'method':'POST','status-code':400,'status-text':'Failed Request'},'response-headers':{'content-type':'text-plain'},'body':{'message':'Request failed'}}
     return {'status-line':{'method':'POST','status_code':200,'status-text':'Sucessfull Request'},'response-headers':{'content-type':'text-plain'},'body':{'message':'Successfully inserted document'}}
 
