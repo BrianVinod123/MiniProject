@@ -33,7 +33,7 @@ def CreateUser():
     client=MongoClient(host='localhost',port=27017)
     db=client.Project
     Users=db.Users
-    response=Users.insert_one({'username':username,'password':password})
+    response=Users.insert_one({'username':username,'password':password,'age':age})
     if response.aknowledeged==False:
         return {'status-line':{'method':'POST','status-code':400,'status-text':'Failed Request'},'response-headers':{'content-type':'text-plain'},'body':{'message':'Request failed'}}
     return {'status-line':{'method':'POST','status_code':200,'status-text':'Sucessfull Request'},'response-headers':{'content-type':'text-plain'},'body':{'message':'Successfully inserted document'}}
