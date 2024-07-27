@@ -33,6 +33,9 @@ def CreateUser():
     client=MongoClient(host='localhost',port=27017)
     db=client.Project
     Users=db.Users
+    user=Users.find_one(filter={"username":username})
+    if user:
+        return {'status-line':{'method':'POST','status-code':409,'status-text':'Conflict Error'},'response-headers':{'content-type':'text-plain'},'body':{'message':'User already exists!'}}
     response=Users.insert_one({'username':username,'password':password,'age':age})
     if response.acknowledged==False:
         return {'status-line':{'method':'POST','status-code':400,'status-text':'Failed Request'},'response-headers':{'content-type':'text-plain'},'body':{'message':'Request failed'}}
