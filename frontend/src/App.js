@@ -4,6 +4,7 @@ import LoginPage from './Pages/Login';
 import PredictPage from './Pages/Predict';
 import HomePage from './Pages/Home';
 import RegistrationPage from './Pages/Registration';
+import Contact from './Pages/Contact';
 
 function App() {
   return (
@@ -17,6 +18,8 @@ function App() {
         <Route path="/Login" element={<LoginPage></LoginPage>}>
         </Route>
         <Route path='/Predict' element={<PredictPage></PredictPage>}>
+        </Route> 
+        <Route path='/Contact' element={<Contact></Contact>}>
         </Route> 
       </Routes>
       </BrowserRouter>
