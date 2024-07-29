@@ -1,32 +1,58 @@
-import React, { useState } from 'react'
-import axios from 'axios'
-import '../css/LoginPage.css'
+import React, { useState } from 'react';
+import axios from 'axios';
+import ResultContentBox from '../components/resultcontentbox';
 
-const PredictPage=()=>{
-    const [drugA,setDrugA]=useState("")
-    const [drugB,setDrugB]=useState("")
-    const handleSubmit=async()=>{
-        console.log({'drugA':drugA,'drugB':drugB})
-        const response=await axios({method:'post',url:' http://127.0.0.1:5000/Predict',data:{'drugA':drugA,'drugB':drugB}})
-        if(response.status===200){
-            console.log(response.data)
+const PredictPage = () => {
+    const [drugA, setDrugA] = useState("");
+    const [drugB, setDrugB] = useState("");
+    const [result, setResult] = useState(null);
+
+    const handleSubmit = async () => {
+        console.log({ 'drugA': drugA, 'drugB': drugB });
+        const response = await axios({ method: 'post', url: 'http://127.0.0.1:5000/Predict', data: { 'drugA': drugA, 'drugB': drugB } }).catch(error=>{
+            alert('Prediction data not available')
+            return error
+        });
+        if (response.status === 200) {
+            const data=response.data
+            setResult(data)
         }
     }
-    return(
-    <div>
-        <div className='user_input'>
-            <label>
-                Enter DrugA
-            <input id="username" type="text" required={true} onChange={(e)=>{setDrugA(e.target.value)}}></input>
-            </label>
-                Enter DrugB
-            <label>
-            <input id="password" type="text" required={true} onChange={(e)=>{setDrugB(e.target.value)}}></input>
-            </label>
-        </div>
-        <button onClick={handleSubmit}>Submit</button>
-    </div>
-    );
-}
 
-export default PredictPage
+    return (
+        <div className="flex items-center justify-center h-screen bg-gray-100">
+            <div className="bg-white p-8 rounded-lg shadow-md w-96">
+                <h2 className="text-2xl font-bold text-center mb-6">Predict Drug Interaction</h2>
+                <div className="mb-4">
+                    <label className="block text-gray-700 mb-2" htmlFor="drugA">Enter Drug A</label>
+                    <input
+                        id="drugA"
+                        type="text"
+                        required={true}
+                        onChange={(e) => { setDrugA(e.target.value) }}
+                        className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"
+                    />
+                </div>
+                <div className="mb-4">
+                    <label className="block text-gray-700 mb-2" htmlFor="drugB">Enter Drug B</label>
+                    <input
+                        id="drugB"
+                        type="text"
+                        required={true}
+                        onChange={(e) => { setDrugB(e.target.value) }}
+                        className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"
+                    />
+                </div>
+                <button
+                    onClick={handleSubmit}
+                    className="w-full py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition duration-200"
+                >
+                    Submit
+                </button>
+                <ResultContentBox content={result}></ResultContentBox>
+            </div>
+        </div>
+    );
+};
+
+export default PredictPage;
